@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Picker</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+
+      class ColorPicker extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            color: '',
+            valid: true
+          };
+        }
+
+        handleColorChange = (event) => {
+          const color = event.target.value;
+    
+          const hexRegex = /^#[0-9A-F]{6}$/i;
+          const isValid = hexRegex.test(color);
+          this.setState({
+            color: color,
+            valid: isValid
+          });
+        };
+
+        render() {
+          const { color, valid } = this.state;
+          return (
+            <div>
+              <h2 style={{ textAlign: 'center' }}>Colour Picker</h2>
+              <div style={{ textAlign: 'center' }}>
+                <input
+                  type="text"
+                  placeholder="Enter HEX color code"
+                  value={color}
+                  onChange={this.handleColorChange}
+                  style={{ margin: '0 auto' }}
+                />
+                {!valid && <p style={{ color: 'red' }}>Invalid HEX color code</p>}
+              </div>
+              <div
+                style={{
+                    width: '500px',
+                  height: '500px',
+                  backgroundColor: valid ? color : 'transparent',
+                  marginTop: '10px',
+                  margin: '0 auto'
+                }}
+              ></div>
+            </div>
+          );
+        }
+      }
+      ReactDOM.render(<ColorPicker />, document.getElementById('root'));
+    </script>
+  </body>
+</html>
